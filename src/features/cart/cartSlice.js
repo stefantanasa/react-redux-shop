@@ -26,6 +26,13 @@ const cartSlice = createSlice({
       // otherways we would have to write:
       // state.cartItems = {{...state, cartItems=[]}}
       state.cartItems = [];
+      // if we return { cartItems:[]}, this will become the new state
+      // meaning that the rest of the properties will be deleted
+    },
+    removeItem: (state, action) => {
+      state.cartItems = state.cartItems.filter(
+        (item) => action.payload !== item.id
+      );
     },
   },
 });
@@ -34,7 +41,7 @@ const cartSlice = createSlice({
 
 // now we need to export the action/function from the reducers/action
 // notice we have destructured the action from cartSlice.actions
-export const { clearCart } = cartSlice.actions;
+export const { clearCart, removeItem } = cartSlice.actions;
 
 // we'll export the cart reducer like that. .reducer is a property
 export default cartSlice.reducer;
