@@ -14,6 +14,7 @@ function App() {
   // every time cartItems have a change in it the calculateTotal action is triggered.
   useEffect(() => {
     dispatch(calculateTotal());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartItems]);
   return (
     <main>
