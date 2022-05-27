@@ -8,7 +8,7 @@ const initialState = {
   // import cartItems from './../../cartItems';
   // this is a .js file where an array is exported so the cart Items is an array
   cartItems: cartItems,
-  amount: 1,
+  amount: 0,
   total: 0,
   isLoading: true,
 };
@@ -50,6 +50,16 @@ const cartSlice = createSlice({
       const cartItem = state.cartItems.find((item) => item.id === payload.id);
       cartItem.amount = cartItem.amount - 1;
     },
+    calculateTotal: (state) => {
+      let amount = 0;
+      let total = 0;
+      state.cartItems.forEach((item) => {
+        amount += item.amount;
+        total += item.amount * item.price;
+        state.amount = amount;
+        state.total = total;
+      });
+    },
   },
 });
 
@@ -57,7 +67,8 @@ const cartSlice = createSlice({
 
 // now we need to export the action/function from the reducers/action
 // notice we have destructured the action from cartSlice.actions
-export const { clearCart, removeItem, increase, decrease } = cartSlice.actions;
+export const { clearCart, removeItem, increase, decrease, calculateTotal } =
+  cartSlice.actions;
 
 // we'll export the cart reducer like that. .reducer is a property
 export default cartSlice.reducer;
