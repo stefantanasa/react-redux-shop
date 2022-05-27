@@ -1,6 +1,9 @@
 // import createSlice to be able to create a slice.
 // A slice is a portion of the entire state
 import { createSlice } from "@reduxjs/toolkit";
+// we impport createAsyncThunk so we can perform async functions
+// createAsyncThunk comes installed with reduxtoolkit.
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import cartItems from "../../cartItems";
 // we define the initial state the slice it will have
 const initialState = {
@@ -12,6 +15,17 @@ const initialState = {
   total: 0,
   isLoading: true,
 };
+// save the url to fetch in a constant
+const url = "https://course-api.com/react-useReducer-cart-project";
+
+// export the getCartItems
+// getCartItems it will take to params: "type/action" and a callback to perform the fetch
+export const getCartItems = createAsyncThunk("cart/getCartItems", () => {
+  return fetch(url)
+    .then((resp) => resp.json())
+    .catch((error) => console.log(error));
+});
+// after reducers we  need to add extraReducers
 
 // declare the slice and inside create slice we'll have an object
 const cartSlice = createSlice({
@@ -61,6 +75,25 @@ const cartSlice = createSlice({
       });
     },
   },
+  // we add this extraReducers to perform the async fetch getCartItems
+  // here we will handle the promise, rejected and fullfiled
+  // extraReducers: {
+  //   // is pending
+  //   [getCartItems.pending]: (state) => {
+  //     // we add in the state .isLoading and set it to true
+  //     state.isLoading = true;
+  //   },
+  //   [getCartItems.fulfilled]: (state, action) => {
+  //     // we set isloading to false so when the promise is fullfiled isLoaded turns to false
+  //     state.isLoading = false;
+  //     // and we set the cartItems to action.payload
+  //     state.cartItems = action.payload;
+  //   },
+  //   [getCartItems.rejected]: (state) => {
+  //     // we set isloading to false so when the promise is rejected isLoaded turns to false
+  //     state.isLoading = false;
+  //   },
+  // },
 });
 
 // console.log(cartSlice);
