@@ -5,6 +5,7 @@ import cartItems from "../../cartItems";
 // we define the initial state the slice it will have
 const initialState = {
   // import the data here from cartItems. this is a
+  // import cartItems from './../../cartItems';
   // this is a .js file where an array is exported so the cart Items is an array
   cartItems: cartItems,
   amount: 1,
@@ -30,9 +31,24 @@ const cartSlice = createSlice({
       // meaning that the rest of the properties will be deleted
     },
     removeItem: (state, action) => {
+      // well filter by th id the cartItems so the item that we need to remove
+      // it will be removed from the cartItems array
       state.cartItems = state.cartItems.filter(
         (item) => action.payload !== item.id
+        // the action.payload will be the id that the removeItem action will
+        // receive when the remove button will be clicked.
       );
+    },
+    increase: (state, { payload }) => {
+      const cartItem = state.cartItems.find((item) => item.id === payload.id);
+      console.log(cartItem);
+      cartItem.amount = cartItem.amount + 1;
+    },
+    decrease: (state, { payload }) => {
+      // because in the payload this time we receive an object ({id:id})
+      // we treat payload as an object
+      const cartItem = state.cartItems.find((item) => item.id === payload.id);
+      cartItem.amount = cartItem.amount - 1;
     },
   },
 });
@@ -41,7 +57,7 @@ const cartSlice = createSlice({
 
 // now we need to export the action/function from the reducers/action
 // notice we have destructured the action from cartSlice.actions
-export const { clearCart, removeItem } = cartSlice.actions;
+export const { clearCart, removeItem, increase, decrease } = cartSlice.actions;
 
 // we'll export the cart reducer like that. .reducer is a property
 export default cartSlice.reducer;
