@@ -10,6 +10,7 @@ function App() {
   let dispatch = useDispatch();
   // destructure the cartItems from the cart slice. remember that "cart" is the name of the slice
   let { cartItems } = useSelector((state) => state.cart);
+  let { isOpen } = useSelector((state) => state.modal);
 
   // we use the useEffect to calculate again whenever the cartItems is modified.
   // every time cartItems have a change in it the calculateTotal action is triggered.
@@ -19,7 +20,7 @@ function App() {
   }, [cartItems]);
   return (
     <main>
-      <Modal />
+      {isOpen && <Modal />}
       <Navbar />
       <CartContainer />
     </main>

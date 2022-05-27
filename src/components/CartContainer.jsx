@@ -2,11 +2,12 @@ import React from "react";
 import CartItem from "./CartItem";
 // along useSelector we import useDispatch hook to to dispath the actions
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart } from "../features/cart/cartSlice";
+import { openModal } from "../features/cart/modalSlice";
 
 const CartContainer = () => {
   const dispatch = useDispatch();
   const { amount, cartItems, total } = useSelector((store) => store.cart);
+  const { isOpen } = useSelector((store) => store.modal);
   //   here we will do the logic to display or not the
   // content of the cart if the amount of items are above 0
   if (amount < 1) {
@@ -42,7 +43,10 @@ const CartContainer = () => {
               //   Now we will use the clearCart action in onClick event
               // we also can write useDispatch(clearCart) too and we need
               // to import the action clearCart
-              onClick={() => dispatch(clearCart())}
+
+              // now we replaced the clearCart() with openModal() because we want to
+              // clear the cart when we press on the confirm btn in the modal
+              onClick={() => dispatch(openModal())}
             >
               clear cart
             </button>
